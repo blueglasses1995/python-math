@@ -377,6 +377,484 @@ def pca_example():
     print("\nグラフを保存しました: outputs/05_pca.png")
     plt.close()
 
+def vector_space_concepts():
+    """ベクトル空間の詳細な概念"""
+    print("\n" + "=" * 50)
+    print("7. ベクトル空間の詳細")
+    print("=" * 50)
+
+    print("ベクトル空間 (Vector Space) の定義:")
+    print("体F上のベクトル空間Vは、以下を満たす集合:")
+    print("\n【加法に関する性質】")
+    print("1. 閉性: u, v ∈ V ⇒ u + v ∈ V")
+    print("2. 結合律: (u + v) + w = u + (v + w)")
+    print("3. 零ベクトルの存在: ∃0 ∈ V s.t. v + 0 = v")
+    print("4. 逆元の存在: ∀v ∈ V, ∃(-v) ∈ V s.t. v + (-v) = 0")
+    print("5. 交換律: u + v = v + u")
+
+    print("\n【スカラー倍に関する性質】")
+    print("6. 閉性: c ∈ F, v ∈ V ⇒ cv ∈ V")
+    print("7. 分配律(1): c(u + v) = cu + cv")
+    print("8. 分配律(2): (c + d)v = cv + dv")
+    print("9. 結合律: c(dv) = (cd)v")
+    print("10. 単位元: 1v = v")
+
+    # 例: R^2 のベクトル空間
+    print("\n" + "=" * 50)
+    print("例: R²のベクトル空間")
+    print("=" * 50)
+
+    v1 = np.array([2, 3])
+    v2 = np.array([1, -1])
+    c1, c2 = 2, -1.5
+
+    print(f"v1 = {v1}, v2 = {v2}")
+    print(f"スカラー: c1 = {c1}, c2 = {c2}")
+
+    print(f"\n閉性の確認:")
+    print(f"v1 + v2 = {v1 + v2} ∈ R²")
+    print(f"c1 × v1 = {c1 * v1} ∈ R²")
+
+    print(f"\n分配律の確認:")
+    print(f"c1(v1 + v2) = {c1 * (v1 + v2)}")
+    print(f"c1×v1 + c1×v2 = {c1 * v1 + c1 * v2}")
+
+    print("\n" + "=" * 50)
+    print("部分空間 (Subspace)")
+    print("=" * 50)
+
+    print("部分空間: ベクトル空間Vの部分集合Wで、以下を満たすもの:")
+    print("1. 0 ∈ W (零ベクトルを含む)")
+    print("2. u, v ∈ W ⇒ u + v ∈ W (加法について閉じている)")
+    print("3. c ∈ F, v ∈ W ⇒ cv ∈ W (スカラー倍について閉じている)")
+
+    # R^3の部分空間の例
+    print("\n例: R³の部分空間 - xy平面")
+    print("W = {(x, y, 0) | x, y ∈ R}")
+
+    w1 = np.array([1, 2, 0])
+    w2 = np.array([3, -1, 0])
+    c = 2.5
+
+    print(f"\nw1 = {w1}, w2 = {w2}")
+    print(f"w1 + w2 = {w1 + w2} ∈ W (z成分が0)")
+    print(f"{c} × w1 = {c * w1} ∈ W (z成分が0)")
+
+    # 可視化
+    fig = plt.figure(figsize=(14, 6))
+
+    # 2Dベクトル空間
+    ax1 = fig.add_subplot(121)
+
+    # いくつかのベクトルをプロット
+    vectors_2d = [
+        ([2, 3], 'blue', 'v1'),
+        ([1, -1], 'red', 'v2'),
+        ([3, 2], 'green', 'v1+v2'),
+        ([4, 6], 'purple', '2v1'),
+    ]
+
+    for vec, color, label in vectors_2d:
+        ax1.quiver(0, 0, vec[0], vec[1], angles='xy', scale_units='xy', scale=1,
+                  color=color, width=0.008, label=label, alpha=0.7)
+
+    ax1.set_xlim(-2, 6)
+    ax1.set_ylim(-3, 7)
+    ax1.set_aspect('equal')
+    ax1.grid(True, alpha=0.3)
+    ax1.axhline(y=0, color='k', linestyle='-', linewidth=0.5)
+    ax1.axvline(x=0, color='k', linestyle='-', linewidth=0.5)
+    ax1.set_xlabel('x', fontsize=12)
+    ax1.set_ylabel('y', fontsize=12)
+    ax1.set_title('Vector Space R²', fontsize=14, fontweight='bold')
+    ax1.legend()
+
+    # 3D部分空間
+    ax2 = fig.add_subplot(122, projection='3d')
+
+    # xy平面（部分空間）
+    xx, yy = np.meshgrid(np.linspace(-3, 3, 10), np.linspace(-3, 3, 10))
+    zz = np.zeros_like(xx)
+    ax2.plot_surface(xx, yy, zz, alpha=0.3, color='cyan')
+
+    # 部分空間内のベクトル
+    vectors_3d = [
+        ([2, 1, 0], 'blue'),
+        ([1, 3, 0], 'red'),
+        ([3, 4, 0], 'green'),
+    ]
+
+    for vec, color in vectors_3d:
+        ax2.quiver(0, 0, 0, vec[0], vec[1], vec[2],
+                  color=color, arrow_length_ratio=0.15, linewidth=2)
+
+    # 部分空間外のベクトル（比較用）
+    ax2.quiver(0, 0, 0, 1, 1, 2, color='orange',
+              arrow_length_ratio=0.15, linewidth=2, linestyle='--')
+
+    ax2.set_xlabel('x', fontsize=10)
+    ax2.set_ylabel('y', fontsize=10)
+    ax2.set_zlabel('z', fontsize=10)
+    ax2.set_title('Subspace: xy-plane in R³', fontsize=14, fontweight='bold')
+    ax2.set_xlim(-3, 3)
+    ax2.set_ylim(-3, 3)
+    ax2.set_zlim(-3, 3)
+
+    plt.tight_layout()
+    plt.savefig('../../outputs/05_vector_space.png', dpi=150, bbox_inches='tight')
+    print("\nグラフを保存しました: outputs/05_vector_space.png")
+    plt.close()
+
+    # 基底と次元
+    print("\n" + "=" * 50)
+    print("基底 (Basis) と次元 (Dimension)")
+    print("=" * 50)
+
+    print("基底: ベクトル空間Vの線形独立なベクトルの集合で、")
+    print("      Vの任意のベクトルを線形結合で表現できるもの")
+
+    print("\n次元: 基底のベクトルの個数")
+
+    print("\n例: R²の標準基底")
+    e1 = np.array([1, 0])
+    e2 = np.array([0, 1])
+    print(f"e1 = {e1}, e2 = {e2}")
+    print("任意のベクトルv = [x, y]は v = x×e1 + y×e2 と表現できる")
+
+    v = np.array([3, 5])
+    print(f"\nv = {v} = {v[0]}×{e1} + {v[1]}×{e2}")
+
+    print(f"\nR²の次元: dim(R²) = 2")
+
+def linear_maps_detailed():
+    """線形写像の詳細"""
+    print("\n" + "=" * 50)
+    print("8. 線形写像の詳細")
+    print("=" * 50)
+
+    print("線形写像 (Linear Map) の定義:")
+    print("写像 T: V → W が線形写像 ⟺ 以下を満たす:")
+    print("1. T(u + v) = T(u) + T(v) (加法の保存)")
+    print("2. T(cv) = cT(v) (スカラー倍の保存)")
+
+    print("\n" + "=" * 50)
+    print("線形写像の例")
+    print("=" * 50)
+
+    # 例1: 回転
+    theta = np.pi / 4  # 45度
+    R = np.array([[np.cos(theta), -np.sin(theta)],
+                  [np.sin(theta), np.cos(theta)]])
+
+    print(f"例1: 回転変換 (45度)")
+    print(f"行列表現:\n{R}")
+
+    v1 = np.array([2, 0])
+    v2 = np.array([0, 2])
+
+    print(f"\nv1 = {v1}")
+    print(f"T(v1) = {R @ v1}")
+
+    print(f"\nv2 = {v2}")
+    print(f"T(v2) = {R @ v2}")
+
+    # 線形性の確認
+    print(f"\n線形性の確認:")
+    print(f"T(v1 + v2) = {R @ (v1 + v2)}")
+    print(f"T(v1) + T(v2) = {R @ v1 + R @ v2}")
+    print(f"一致: {np.allclose(R @ (v1 + v2), R @ v1 + R @ v2)}")
+
+    print("\n" + "=" * 50)
+    print("核 (Kernel) と像 (Image)")
+    print("=" * 50)
+
+    print("核 (Ker(T)): T(v) = 0 となるvの集合")
+    print("像 (Im(T)): Tによって写される全てのベクトルの集合")
+
+    print("\n階数定理 (Rank-Nullity Theorem):")
+    print("dim(V) = dim(Ker(T)) + dim(Im(T))")
+    print("       = nullity(T) + rank(T)")
+
+    # 例: 射影
+    print("\n例: R³ → R² への射影")
+    P = np.array([[1, 0, 0],
+                  [0, 1, 0]])
+
+    print(f"射影行列:\n{P}")
+
+    v3d = np.array([2, 3, 4])
+    print(f"\nv = {v3d}")
+    print(f"P(v) = {P @ v3d}")
+
+    print(f"\n核: Ker(P) = {{[0, 0, z] | z ∈ R}} (z軸)")
+    print(f"次元: dim(Ker(P)) = 1")
+
+    print(f"\n像: Im(P) = R² (xy平面)")
+    print(f"次元: dim(Im(P)) = 2")
+
+    print(f"\n階数定理の確認: dim(R³) = 3 = 1 + 2 ✓")
+
+    # 可視化
+    fig, axes = plt.subplots(1, 2, figsize=(14, 6))
+
+    # 回転変換
+    x = np.linspace(-3, 3, 20)
+    y = np.linspace(-3, 3, 20)
+    X, Y = np.meshgrid(x, y)
+
+    # 元のグリッド
+    for i in range(len(x)):
+        axes[0].plot(X[i, :], Y[i, :], 'b-', alpha=0.3, linewidth=0.5)
+        axes[0].plot(X[:, i], Y[:, i], 'b-', alpha=0.3, linewidth=0.5)
+
+    # 変換後のグリッド
+    for i in range(len(x)):
+        row_transformed = R @ np.vstack([X[i, :], Y[i, :]])
+        col_transformed = R @ np.vstack([X[:, i], Y[:, i]])
+        axes[0].plot(row_transformed[0], row_transformed[1], 'r-', alpha=0.3, linewidth=0.5)
+        axes[0].plot(col_transformed[0], col_transformed[1], 'r-', alpha=0.3, linewidth=0.5)
+
+    # 基底ベクトル
+    e1 = np.array([1, 0])
+    e2 = np.array([0, 1])
+    axes[0].quiver(0, 0, e1[0], e1[1], angles='xy', scale_units='xy', scale=1,
+                  color='blue', width=0.01, label='Original basis')
+    axes[0].quiver(0, 0, e2[0], e2[1], angles='xy', scale_units='xy', scale=1,
+                  color='blue', width=0.01)
+
+    Re1 = R @ e1
+    Re2 = R @ e2
+    axes[0].quiver(0, 0, Re1[0], Re1[1], angles='xy', scale_units='xy', scale=1,
+                  color='red', width=0.015, label='Transformed basis')
+    axes[0].quiver(0, 0, Re2[0], Re2[1], angles='xy', scale_units='xy', scale=1,
+                  color='red', width=0.015)
+
+    axes[0].set_xlim(-4, 4)
+    axes[0].set_ylim(-4, 4)
+    axes[0].set_aspect('equal')
+    axes[0].grid(True, alpha=0.3)
+    axes[0].set_title('Linear Map: Rotation (45°)', fontsize=14, fontweight='bold')
+    axes[0].legend()
+
+    # 同型写像と準同型写像
+    axes[1].text(0.5, 0.95, 'Linear Map Properties', ha='center',
+                fontsize=14, fontweight='bold', transform=axes[1].transAxes)
+
+    properties = [
+        "単射 (Injective / One-to-one):",
+        "  T(u) = T(v) ⇒ u = v",
+        "  ⟺ Ker(T) = {0}",
+        "",
+        "全射 (Surjective / Onto):",
+        "  Im(T) = W",
+        "  任意のw ∈ Wに対して、T(v) = w となるv ∈ Vが存在",
+        "",
+        "全単射 (Bijective):",
+        "  単射 かつ 全射",
+        "  ⟺ 同型写像 (Isomorphism)",
+        "  ⟺ 可逆 (Invertible)",
+        "",
+        "準同型写像 (Homomorphism):",
+        "  代数構造を保存する線形写像",
+    ]
+
+    for i, text in enumerate(properties):
+        axes[1].text(0.1, 0.85 - i*0.05, text, fontsize=9,
+                    transform=axes[1].transAxes, verticalalignment='top',
+                    family='monospace')
+
+    axes[1].axis('off')
+
+    plt.tight_layout()
+    plt.savefig('../../outputs/05_linear_maps.png', dpi=150, bbox_inches='tight')
+    print("\nグラフを保存しました: outputs/05_linear_maps.png")
+    plt.close()
+
+def practical_deep_learning():
+    """実務応用: Deep Learning"""
+    print("\n" + "=" * 50)
+    print("9. 実務応用: Deep Learning での線形代数")
+    print("=" * 50)
+
+    print("ニューラルネットワークは線形代数の応用の宝庫:")
+
+    print("\n【1. 全結合層 (Dense Layer)】")
+    print("y = Wx + b")
+    print("  W: 重み行列 (線形変換)")
+    print("  x: 入力ベクトル")
+    print("  b: バイアスベクトル (平行移動)")
+
+    # 簡単なニューラルネットワークの例
+    print("\n例: 2層ニューラルネットワーク")
+
+    # 入力
+    x = np.array([[1], [2], [3]])  # 3次元入力
+    print(f"入力 x (3次元):\n{x.T}")
+
+    # 第1層: 3 → 4
+    W1 = np.random.randn(4, 3) * 0.5
+    b1 = np.random.randn(4, 1) * 0.1
+    z1 = W1 @ x + b1
+    a1 = np.maximum(0, z1)  # ReLU活性化
+    print(f"\n第1層出力 (4次元):\n{a1.T}")
+
+    # 第2層: 4 → 2
+    W2 = np.random.randn(2, 4) * 0.5
+    b2 = np.random.randn(2, 1) * 0.1
+    z2 = W2 @ a1 + b2
+    output = 1 / (1 + np.exp(-z2))  # Sigmoid活性化
+    print(f"\n第2層出力 (2次元):\n{output.T}")
+
+    print("\n【2. バッチ処理】")
+    print("行列の各列が1つのサンプルを表現")
+    print("X: (features × batch_size)")
+    print("Y = WX + B (複数サンプルを同時に処理)")
+
+    batch_size = 5
+    X_batch = np.random.randn(3, batch_size)
+    Y_batch = W1 @ X_batch + b1
+    print(f"\nバッチ入力形状: {X_batch.shape}")
+    print(f"バッチ出力形状: {Y_batch.shape}")
+
+    print("\n【3. 注意機構 (Attention Mechanism)】")
+    print("Transformer等で使用される重要な概念")
+    print("Attention(Q, K, V) = softmax(QK^T/√d_k)V")
+    print("  Q: Query行列")
+    print("  K: Key行列")
+    print("  V: Value行列")
+
+    # 簡易的な注意機構
+    d_k = 4
+    seq_len = 3
+
+    Q = np.random.randn(seq_len, d_k)
+    K = np.random.randn(seq_len, d_k)
+    V = np.random.randn(seq_len, d_k)
+
+    # 注意スコアの計算
+    scores = Q @ K.T / np.sqrt(d_k)
+    attention_weights = np.exp(scores) / np.exp(scores).sum(axis=1, keepdims=True)
+    attention_output = attention_weights @ V
+
+    print(f"\nQuery形状: {Q.shape}")
+    print(f"注意重み形状: {attention_weights.shape}")
+    print(f"出力形状: {attention_output.shape}")
+
+    print("\n【4. 埋め込み (Embeddings)】")
+    print("単語やトークンを高次元ベクトル空間に埋め込む")
+    print("線形代数の観点: ベクトル空間内での意味の表現")
+
+    # Word2Vec風の例
+    vocab_size = 1000
+    embedding_dim = 128
+    E = np.random.randn(vocab_size, embedding_dim) * 0.01
+
+    word_id = 42
+    word_vector = E[word_id]
+    print(f"\n語彙サイズ: {vocab_size}")
+    print(f"埋め込み次元: {embedding_dim}")
+    print(f"単語ベクトル形状: {word_vector.shape}")
+
+    # コサイン類似度
+    word_id2 = 100
+    word_vector2 = E[word_id2]
+    cosine_sim = np.dot(word_vector, word_vector2) / (
+        np.linalg.norm(word_vector) * np.linalg.norm(word_vector2)
+    )
+    print(f"\n単語{word_id}と単語{word_id2}のコサイン類似度: {cosine_sim:.4f}")
+
+    # 可視化
+    fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+
+    # ニューラルネットワーク構造
+    axes[0, 0].text(0.5, 0.95, 'Neural Network Architecture',
+                   ha='center', fontsize=12, fontweight='bold',
+                   transform=axes[0, 0].transAxes)
+
+    layer_info = [
+        "Input Layer (3)",
+        "  ↓ W1 (4×3), b1 (4×1)",
+        "Hidden Layer (4)",
+        "  ↓ ReLU",
+        "  ↓ W2 (2×4), b2 (2×1)",
+        "Output Layer (2)",
+        "  ↓ Sigmoid",
+        "",
+        "Total params:",
+        f"  W1: {W1.size}",
+        f"  b1: {b1.size}",
+        f"  W2: {W2.size}",
+        f"  b2: {b2.size}",
+        f"  Total: {W1.size + b1.size + W2.size + b2.size}"
+    ]
+
+    for i, text in enumerate(layer_info):
+        axes[0, 0].text(0.1, 0.85 - i*0.055, text, fontsize=9,
+                       transform=axes[0, 0].transAxes, verticalalignment='top',
+                       family='monospace')
+    axes[0, 0].axis('off')
+
+    # 注意機構の重み
+    im = axes[0, 1].imshow(attention_weights, cmap='viridis', aspect='auto')
+    axes[0, 1].set_xlabel('Key Position', fontsize=10)
+    axes[0, 1].set_ylabel('Query Position', fontsize=10)
+    axes[0, 1].set_title('Attention Weights', fontsize=12, fontweight='bold')
+    plt.colorbar(im, ax=axes[0, 1])
+
+    # 埋め込み空間の2D投影（t-SNEやPCAの代わりに簡易版）
+    # ランダムな単語のサンプル
+    n_words = 50
+    sample_embeddings = E[:n_words, :2]  # 最初の2次元のみ使用
+
+    axes[1, 0].scatter(sample_embeddings[:, 0], sample_embeddings[:, 1],
+                      alpha=0.6, s=50)
+    for i in range(min(10, n_words)):
+        axes[1, 0].annotate(f'w{i}', xy=sample_embeddings[i],
+                           xytext=(5, 5), textcoords='offset points',
+                           fontsize=8, alpha=0.7)
+    axes[1, 0].set_xlabel('Dimension 1', fontsize=10)
+    axes[1, 0].set_ylabel('Dimension 2', fontsize=10)
+    axes[1, 0].set_title('Word Embeddings (2D projection)',
+                        fontsize=12, fontweight='bold')
+    axes[1, 0].grid(True, alpha=0.3)
+
+    # 応用まとめ
+    axes[1, 1].text(0.5, 0.95, 'Key Linear Algebra Applications in DL',
+                   ha='center', fontsize=11, fontweight='bold',
+                   transform=axes[1, 1].transAxes)
+
+    applications = [
+        "1. 行列積:",
+        "   - 全結合層の計算",
+        "   - バッチ処理",
+        "",
+        "2. 固有値・固有ベクトル:",
+        "   - PCA (特徴量削減)",
+        "   - スペクトル正規化",
+        "",
+        "3. SVD:",
+        "   - 行列分解",
+        "   - 推薦システム",
+        "",
+        "4. ノルム:",
+        "   - L2正則化",
+        "   - 勾配クリッピング",
+        "",
+        "5. 内積・コサイン類似度:",
+        "   - 注意機構",
+        "   - 類似度計算",
+    ]
+
+    for i, text in enumerate(applications):
+        axes[1, 1].text(0.05, 0.88 - i*0.04, text, fontsize=8,
+                       transform=axes[1, 1].transAxes, verticalalignment='top')
+    axes[1, 1].axis('off')
+
+    plt.tight_layout()
+    plt.savefig('../../outputs/05_deep_learning.png', dpi=150, bbox_inches='tight')
+    print("\nグラフを保存しました: outputs/05_deep_learning.png")
+    plt.close()
+
 def main():
     """メイン実行関数"""
     print("\n" + "=" * 50)
@@ -389,6 +867,9 @@ def main():
     eigenvalues_eigenvectors()
     singular_value_decomposition()
     pca_example()
+    vector_space_concepts()
+    linear_maps_detailed()
+    practical_deep_learning()
 
     print("\n" + "=" * 50)
     print("レッスン5 完了!")

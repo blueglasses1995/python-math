@@ -123,6 +123,7 @@ def check_directories():
         'lessons/05_linear_algebra',
         'lessons/06_statistics',
         'lessons/07_sets_topology',
+        'lessons/08_algebra',
         'outputs'
     ]
 
@@ -152,7 +153,8 @@ def test_lesson_execution():
         'lessons/04_calculus/lesson.py',
         'lessons/05_linear_algebra/lesson.py',
         'lessons/06_statistics/lesson.py',
-        'lessons/07_sets_topology/lesson.py'
+        'lessons/07_sets_topology/lesson.py',
+        'lessons/08_algebra/lesson.py'
     ]
 
     all_ok = True
