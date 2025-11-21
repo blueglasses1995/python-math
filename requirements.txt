@@ -1,0 +1,22 @@
+# Python数学学習環境 - 必要なライブラリ
+
+# 数値計算
+numpy>=1.24.0
+
+# 科学計算
+scipy>=1.10.0
+
+# 記号計算・微分
+sympy>=1.12
+
+# データ可視化
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# 統計学
+pandas>=2.0.0
+statsmodels>=0.14.0
+
+# Jupyter Notebook (オプション)
+jupyter>=1.0.0
+ipython>=8.12.0
